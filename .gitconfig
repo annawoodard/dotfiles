@@ -1,0 +1,25 @@
+[user]
+	name = Anna Elizabeth Woodard
+	email = awoodard@nd.edu
+	github = annawoodard
+
+[core]
+	editor = vim -f
+
+[alias]
+	ci = commit
+	unstage = reset HEAD --
+	last = log -1 HEAD
+	co = checkout
+	hist = log --graph --decorate --oneline
+
+[branch "master"]
+	remote = origin
+  	merge = refs/heads/master
+  	rebase = true
+
+[branch]
+  	autosetuprebase = always
+
+[status]
+        showuntrackedfiles = no
