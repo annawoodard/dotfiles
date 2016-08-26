@@ -10,7 +10,7 @@ if v:version < 702 || (v:version == 702 && !has('patch51'))
    if has('vim_starting')
      set nocompatible
      set runtimepath+=~/.vim/bundle/neobundle.vim/
-     set runtimepath^=~/.vim/bundle/ctrlp.vim
+     " set runtimepath^=~/.vim/bundle/ctrlp.vim
    endif
 
    call neobundle#begin(expand('~/.vim/bundle/'))
@@ -25,6 +25,7 @@ if v:version < 702 || (v:version == 702 && !has('patch51'))
    " NeoBundle 'godlygeek/tabular'
    " NeoBundle 'majutsushi/tagbar'
    NeoBundle 'tpope/vim-commentary'
+   NeoBundle 'tpope/vim-obsession'
    " NeoBundle 'tpope/vim-fugitive'
    NeoBundle 'ntpeters/vim-better-whitespace'
    " NeoBundle 'JulesWang/css.vim'
@@ -33,6 +34,7 @@ if v:version < 702 || (v:version == 702 && !has('patch51'))
    " NeoBundle 'vim-scripts/taglist.vim'
    NeoBundle 'rking/ag.vim'
    " NeoBundle 'klen/python-mode'
+   NeoBundle 'andviro/flake8-vim'
    call neobundle#end()
 
    filetype plugin indent on
@@ -57,13 +59,15 @@ if v:version < 702 || (v:version == 702 && !has('patch51'))
  set backspace=indent,eol,start
  let g:ag_prg="ag --column"
  set hidden " don't warn when switching buffers without saving
+ " set foldmethod=indent
 
   " ========== display
 
  set ruler " show the cursor position all the time
  set showcmd " shows when the leader key is active in the bottom right hand corner
  set laststatus=2 " always show the status line
- set number " show line numbers
+ set relativenumber
+ set number " show absolute line number at the line you're on
  colorscheme lucid
  " set background=dark
  set list
@@ -93,11 +97,12 @@ if v:version < 702 || (v:version == 702 && !has('patch51'))
 
  " ========== formatting
 
- " set textwidth=79
+ set textwidth=72
  set formatoptions=tcqorn
  set smarttab
- set smartindent
+ " set smartindent
  set nolist
+ set nowrap
  filetype indent on
 
  " only do this part when compiled with support for autocommands
@@ -108,14 +113,19 @@ if v:version < 702 || (v:version == 702 && !has('patch51'))
 
    autocmd BufRead,BufWritePre *.sh normal gg=G
    autocmd FileType C setlocal ts=2 sw=2 expandtab
-   autocmd FileType python setlocal ts=4 sw=4 expandtab
+   autocmd FileType cpp setlocal commentstring=//%s
+   autocmd FileType python setlocal ts=4 sw=4 tw=120 expandtab
    autocmd FileType ruby setlocal ts=2 sw=2 expandtab
    autocmd FileType css setlocal ts=2 sw=2 expandtab
-   autocmd FileType tex  setlocal ts=2 sw=2 expandtab tw=70 formatoptions+=t iskeyword+=:
+   " autocmd FileType tex  setlocal ts=2 sw=2 expandtab tw=70 formatoptions+=t iskeyword+=:
+   autocmd FileType tex  setlocal ts=2 sw=2 expandtab tw=10000
    autocmd FileType text setlocal textwidth=80 expandtab
    autocmd FileType sh setlocal ts=10 sw=1 expandtab
    autocmd BufNewFile,BufRead */CMSSW*{cc,h} setlocal ts=3 sw=3 expandtab
    autocmd BufNewFile,BufRead */CMSSW* setlocal makeprg=scram\ b
+   autocmd VimEnter * Obsess .session.vim
+
+   syntax on
 
    " always jump to the last known cursor position,
    " unless position is invalid or inside an event handler
@@ -145,6 +155,14 @@ if v:version < 702 || (v:version == 702 && !has('patch51'))
  let g:ctrlp_map = '<c-o>'
  let g:ctrlp_cmd = 'CtrlP'
  let g:ctrlp_mruf_case_sensitive = 0
+
+ " ========== flake8-vim
+ let g:PyFlakeCheckers = 'pep8'
+ let g:PyFlakeCWindow = 6 " default height of quick fix window
+ let g:PyFlakeSigns = 1 " place signs in the sign gutter or not
+ let g:PyFlakeSignStart = 1 " column of sign gutter to use-- tweaked to play nicely with GitGutter
+ let g:PyFlakeAggressive = 3 " aggressiveness for autopep8
+ let g:PyFlakeOnWrite = 0 " auto-check file for errors on write
 
  " ========== misc mapping
 
