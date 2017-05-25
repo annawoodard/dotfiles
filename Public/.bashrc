@@ -75,6 +75,7 @@ export LS_COLORS="no=00:fi=00:di=1;34:ln=00;36:pi=40;33:so=00;35:bd=40;33;01:cd=
 
 export SSL_CERT_DIR="/etc/pki/tls/certs:$X509_CERT_DIR"
 
+set -o vi
 
 unset autologout
 # alias tmux="TERM=screen-256color-bce tmux"
