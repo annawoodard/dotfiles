@@ -15,6 +15,7 @@ if [[ $HOSTNAME == *".crc.nd.edu" ]]; then
   export PYTHONPATH=$PYTHONPATH:/afs/crc.nd.edu/group/ccl/software/x86_64/redhat6/cctools/$cctools/lib/python2.6/site-packages
   export PATH=/afs/crc.nd.edu/group/ccl/software/x86_64/redhat6/cctools/$cctools/bin:$PATH
   export PATH=${PATH}:/afs/crc.nd.edu/user/a/awoodard/.linuxbrew/bin
+  export SSL_CERT_DIR="/etc/pki/tls/certs:$X509_CERT_DIR"
   echo " === === === Your Kerberos ticket and AFS token status: === === ==="
   klist -5 -f | grep -2 krbtgt | grep Flags | xargs echo 'Kerberos:'
   tokens | grep AFS | xargs -0 echo 'AFS: '
