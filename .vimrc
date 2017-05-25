@@ -35,6 +35,7 @@ if v:version < 702 || (v:version == 702 && !has('patch51'))
    NeoBundle 'rking/ag.vim'
    " NeoBundle 'klen/python-mode'
    NeoBundle 'andviro/flake8-vim'
+   NeoBundle 'lervag/vimtex'
    call neobundle#end()
 
    filetype plugin indent on
@@ -118,7 +119,7 @@ if v:version < 702 || (v:version == 702 && !has('patch51'))
    autocmd FileType ruby setlocal ts=2 sw=2 expandtab
    autocmd FileType css setlocal ts=2 sw=2 expandtab
    " autocmd FileType tex  setlocal ts=2 sw=2 expandtab tw=70 formatoptions+=t iskeyword+=:
-   autocmd FileType tex  setlocal ts=2 sw=2 expandtab tw=10000
+   autocmd FileType tex  setlocal ts=2 sw=2 expandtab tw=80
    autocmd FileType text setlocal textwidth=80 expandtab
    autocmd FileType sh setlocal ts=10 sw=2 expandtab
    autocmd BufNewFile,BufRead */CMSSW*{cc,h} setlocal ts=3 sw=3 expandtab
@@ -163,6 +164,11 @@ if v:version < 702 || (v:version == 702 && !has('patch51'))
  let g:PyFlakeSignStart = 1 " column of sign gutter to use-- tweaked to play nicely with GitGutter
  let g:PyFlakeAggressive = 3 " aggressiveness for autopep8
  let g:PyFlakeOnWrite = 0 " auto-check file for errors on write
+
+ " ========== vimtext
+ let g:vimtex_complete_enabled=1
+ let g:vimtex_complete_close_braces=1
+ let g:vimtex_indent_enabled=1
 
  " ========== misc mapping
 
