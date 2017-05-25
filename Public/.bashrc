@@ -1,19 +1,19 @@
 ## Parts borrowed from M Wolf, 10 June 2014
 
 ltail() {
- tail ~/tscratch/$1/lobster.log
+  tail ~/tscratch/$1/lobster.log
 }
 
 lcat() {
- cat ~/tscratch/$1/lobster.log
+  cat ~/tscratch/$1/lobster.log
 }
 
 zcount() {
- zcat $1 | grep "<event>" | wc
+  zcat $1 | grep "<event>" | wc
 }
 
 ccount() {
- cat $1 | grep "<event>" | wc
+  cat $1 | grep "<event>" | wc
 }
 
 # clean_env() {
@@ -26,19 +26,19 @@ ccount() {
 # }
 
 renew_ssh_agent() {
- file=~/.bash_ssh_agent_$(hostname -s)
- redo=0
- if [ -f "$file" ]; then
-  source "$file" > /dev/null
-  [ -r "$SSH_AUTH_SOCK" ] || redo=1
- else
-  redo=1
- fi
+  file=~/.bash_ssh_agent_$(hostname -s)
+  redo=0
+  if [ -f "$file" ]; then
+    source "$file" > /dev/null
+    [ -r "$SSH_AUTH_SOCK" ] || redo=1
+  else
+    redo=1
+  fi
 
- if [ $redo == 1 ]; then
-  ssh-agent > "$file"
-  source "$file" > /dev/null
- fi
+  if [ $redo == 1 ]; then
+    ssh-agent > "$file"
+    source "$file" > /dev/null
+  fi
 }
 
 ulimit -c unlimited
@@ -52,15 +52,15 @@ HISTFILESIZE=$HISTSIZE
 HISTCONTROL=ignorespace:ignoredups
 
 history() {
- _bash_history_sync
- builtin history "$@"
+  _bash_history_sync
+  builtin history "$@"
 }
 
 _bash_history_sync() {
- builtin history -a         #1
- HISTFILESIZE=$HISTSIZE     #2
- builtin history -c         #3
- builtin history -r         #4
+  builtin history -a         #1
+  HISTFILESIZE=$HISTSIZE     #2
+  builtin history -c         #3
+  builtin history -r         #4
 }
 
 PROMPT_COMMAND=_bash_history_sync
@@ -123,6 +123,6 @@ alias v="vim"
 alias crabenv="source /cvmfs/cms.cern.ch/crab3/crab.sh"
 
 condorlog() {
- echo $1
- awk '/${$1}/{flag=1}/\.\.\./{flag=0}flag' /tmp/wq-pool-174873/condor.logfile
+  echo $1
+  awk '/${$1}/{flag=1}/\.\.\./{flag=0}flag' /tmp/wq-pool-174873/condor.logfile
 }

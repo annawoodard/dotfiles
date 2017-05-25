@@ -120,7 +120,7 @@ if v:version < 702 || (v:version == 702 && !has('patch51'))
    " autocmd FileType tex  setlocal ts=2 sw=2 expandtab tw=70 formatoptions+=t iskeyword+=:
    autocmd FileType tex  setlocal ts=2 sw=2 expandtab tw=10000
    autocmd FileType text setlocal textwidth=80 expandtab
-   autocmd FileType sh setlocal ts=10 sw=1 expandtab
+   autocmd FileType sh setlocal ts=10 sw=2 expandtab
    autocmd BufNewFile,BufRead */CMSSW*{cc,h} setlocal ts=3 sw=3 expandtab
    autocmd BufNewFile,BufRead */CMSSW* setlocal makeprg=scram\ b
    autocmd VimEnter * Obsess .session.vim
