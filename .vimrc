@@ -1,7 +1,7 @@
 " ========== setup
 
+set nocompatible
 if v:version < 702 || (v:version == 702 && !has('patch51'))
-  set nocompatible
   filetype plugin indent on
 
   execute pathogen#infect()
@@ -11,9 +11,7 @@ else
 
   if dein#load_state('~/.vim/bundles')
     call dein#begin('~/.vim/bundles')
-
     call dein#add('~/.vim/bundles/repos/github.com/Shougo/dein.vim')
-
     call dein#add('LaTeX-Box-Team/LaTeX-Box')
     call dein#add('airblade/vim-gitgutter')
     call dein#add('bling/vim-airline')
@@ -26,31 +24,25 @@ else
     call dein#add('JulesWang/css.vim')
     call dein#add('avakhov/vim-yaml')
     call dein#add('mbbill/undotree')
-    call dein#add('klen/python-mode')
     call dein#add('andviro/flake8-vim')
     call dein#add('lervag/vimtex')
     call dein#add('junegunn/fzf', {'build': './install --all', 'rtp': ''})
     call dein#add('junegunn/fzf.vim')
-    call dein#add('jremmen/vim-ripgrep')
-    call dein#add('python-mode/python-mode')
-
-    if has('nvim')
-      call dein#add('mhartington/oceanic-next')
-    else
-      call dein#add('jlund3/colorschemer')
-    endif
-
+    call dein#add('mhartington/oceanic-next')
     call dein#end()
     call dein#save_state()
   endif
-
+    if has('nvim')
+      call dein#add('python-mode/python-mode')
+    else
+      call dein#add('jlund3/colorschemer')
+    endif
   filetype plugin indent on
   syntax enable
 
   if dein#check_install()
     call dein#install()
   endif
-  set nocompatible
 endif
 
 if executable("rg")
