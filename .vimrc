@@ -6,42 +6,57 @@ if v:version < 702 || (v:version == 702 && !has('patch51'))
 
    execute pathogen#infect()
    execute pathogen#helptags()
- else
-   if has('vim_starting')
-     set nocompatible
-     set runtimepath+=~/.vim/bundle/neobundle.vim/
-     " set runtimepath^=~/.vim/bundle/ctrlp.vim
+else
+ set runtimepath+=~/.vim/bundles/repos/github.com/Shougo/dein.vim
+
+ if dein#load_state('~/.vim/bundles')
+   call dein#begin('~/.vim/bundles')
+
+   call dein#add('~/.vim/bundles/repos/github.com/Shougo/dein.vim')
+
+   call dein#add('LaTeX-Box-Team/LaTeX-Box')
+   call dein#add('airblade/vim-gitgutter')
+   call dein#add('bling/vim-airline')
+   call dein#add('godlygeek/tabular')
+   call dein#add('majutsushi/tagbar')
+   call dein#add('tpope/vim-commentary')
+   call dein#add('tpope/vim-obsession')
+   call dein#add('tpope/vim-fugitive')
+   call dein#add('ntpeters/vim-better-whitespace')
+   call dein#add('JulesWang/css.vim')
+   call dein#add('avakhov/vim-yaml')
+   call dein#add('mbbill/undotree')
+   call dein#add('klen/python-mode')
+   call dein#add('andviro/flake8-vim')
+   call dein#add('lervag/vimtex')
+   call dein#add('junegunn/fzf', {'build': './install --all', 'rtp': ''})
+   call dein#add('junegunn/fzf.vim')
+   call dein#add('jremmen/vim-ripgrep')
+   call dein#add('python-mode/python-mode')
+
+   if has('nvim')
+     call dein#add('mhartington/oceanic-next')
+   else
+     call dein#add('jlund3/colorschemer')
    endif
 
-   call neobundle#begin(expand('~/.vim/bundle/'))
-
-   NeoBundleFetch 'Shougo/neobundle.vim'
-
-   " NeoBundle 'LaTeX-Box-Team/LaTeX-Box'
-   NeoBundle 'airblade/vim-gitgutter'
-   NeoBundle 'altercation/vim-colors-solarized'
-   NeoBundle 'jlund3/colorschemer'
-   NeoBundle 'bling/vim-airline'
-   " NeoBundle 'godlygeek/tabular'
-   " NeoBundle 'majutsushi/tagbar'
-   NeoBundle 'tpope/vim-commentary'
-   NeoBundle 'tpope/vim-obsession'
-   " NeoBundle 'tpope/vim-fugitive'
-   NeoBundle 'ntpeters/vim-better-whitespace'
-   " NeoBundle 'JulesWang/css.vim'
-   NeoBundle 'avakhov/vim-yaml'
-   " NeoBundle 'mbbill/undotree'
-   " NeoBundle 'vim-scripts/taglist.vim'
-   NeoBundle 'rking/ag.vim'
-   " NeoBundle 'klen/python-mode'
-   NeoBundle 'andviro/flake8-vim'
-   NeoBundle 'lervag/vimtex'
-   call neobundle#end()
-
-   filetype plugin indent on
-
-   NeoBundleCheck
+   call dein#end()
+   call dein#save_state()
  endif
+
+ filetype plugin indent on
+ syntax enable
+
+ if dein#check_install()
+   call dein#install()
+ endif
+     set nocompatible
+   endif
+
+if executable("rg")
+   set grepprg=rg\ --vimgrep\ --no-heading
+   set grepformat=%f:%l:%c:%m,%f:%l:%m
+endif
 
  " ========== general
 
@@ -62,6 +77,21 @@ if v:version < 702 || (v:version == 702 && !has('patch51'))
  set hidden " don't warn when switching buffers without saving
  " set foldmethod=indent
 
+ " ========== theme
+ if has('nvim')
+   let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+
+   if (has("termguicolors"))
+     set termguicolors
+   endif
+ else
+   set t_Co=256
+   if (has("termguicolors"))
+     set termguicolors
+   endif
+ endif
+ colorscheme OceanicNext
+
   " ========== display
 
  set ruler " show the cursor position all the time
@@ -69,7 +99,7 @@ if v:version < 702 || (v:version == 702 && !has('patch51'))
  set laststatus=2 " always show the status line
  set relativenumber
  set number " show absolute line number at the line you're on
- colorscheme lucid
+ " colorscheme lucid
  " set background=dark
  set list
  " set listchars=tab:>.,trail:.,extends:#,nbsp:.
@@ -82,7 +112,7 @@ if v:version < 702 || (v:version == 702 && !has('patch51'))
 
  set wildmenu " enable enhanced mode for command-line completion
  set wildmode=list:longest,full " list all matches and complete each full match
- set wildignore=*.aux,*.dvi,*.fmt,*.log,*.nav,*.out,*.snm,*.toc,*.pyc
+ set wildignore=*.aux,*.dvi,*.fmt,*.log,*.nav,*.out,*.snm,*.toc,*.pyc,*/.git/*,*.swp
 
  " ========== search
 
