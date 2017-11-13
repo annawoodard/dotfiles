@@ -24,19 +24,22 @@ else
     call dein#add('JulesWang/css.vim')
     call dein#add('avakhov/vim-yaml')
     call dein#add('mbbill/undotree')
-    call dein#add('andviro/flake8-vim')
     call dein#add('lervag/vimtex')
-    call dein#add('junegunn/fzf', {'build': './install --all', 'rtp': ''})
+    call dein#add('junegunn/fzf', {'build': './install --all', 'rtp': '~/.fzf'})
     call dein#add('junegunn/fzf.vim')
     call dein#add('mhartington/oceanic-next')
     call dein#end()
     call dein#save_state()
   endif
-    if has('nvim')
+  if has('nvim')
+    if has('python3')
       call dein#add('python-mode/python-mode')
-    else
-      call dein#add('jlund3/colorschemer')
+      call dein#add('davidhalter/jedi-vim')
+      call dein#add('andviro/flake8-vim')
     endif
+  else
+    call dein#add('jlund3/colorschemer')
+  endif
   filetype plugin indent on
   syntax enable
 
@@ -65,14 +68,12 @@ set nobackup
 set noswapfile
 set autoread " reload files changed outside of vim
 set backspace=indent,eol,start
-let g:ag_prg="ag --column"
 set hidden " don't warn when switching buffers without saving
 " set foldmethod=indent
 
 " ========== theme
 if has('nvim')
   let $NVIM_TUI_ENABLE_TRUE_COLOR=1
-
   if (has("termguicolors"))
     set termguicolors
   endif
@@ -83,6 +84,7 @@ else
   endif
 endif
 colorscheme OceanicNext
+let g:airline_theme='oceanicnext'
 
 " ========== display
 
@@ -138,10 +140,9 @@ if has("autocmd")
   autocmd BufRead,BufWritePre *.sh normal gg=G
   autocmd FileType C setlocal ts=2 sw=2 expandtab
   autocmd FileType cpp setlocal commentstring=//%s
-  autocmd FileType python setlocal ts=4 sw=4 tw=120 expandtab
+  autocmd FileType python setlocal ts=4 sw=4 tw=120 expandtab omnifunc=jedi#completions
   autocmd FileType ruby setlocal ts=2 sw=2 expandtab
   autocmd FileType css setlocal ts=2 sw=2 expandtab
-  " autocmd FileType tex  setlocal ts=2 sw=2 expandtab tw=70 formatoptions+=t iskeyword+=:
   autocmd FileType tex  setlocal ts=2 sw=2 expandtab tw=80
   autocmd FileType text setlocal textwidth=80 expandtab
   autocmd FileType sh setlocal ts=10 sw=2 expandtab
@@ -187,9 +188,10 @@ let g:PyFlakeOnWrite = 0 " auto-check file for errors on write
 let g:vimtex_complete_enabled=1
 let g:vimtex_complete_close_braces=1
 let g:vimtex_indent_enabled=1
+let g:vimtex_indent_bib_enabled=1
+let g:vimtex_indent_on_ampersands=1
 
 " ========== misc mapping
-
 let mapleader=" "
 nnoremap ; :
 " nmap <S-Enter> O<Esc>
@@ -198,7 +200,7 @@ inoremap jk <ESC>
 vmap Q gq
 nmap Q gqap
 nmap <leader>gs <Plug>GitGutterStageHunk
-nmap <leader>gr <Plug>GitGutterRevertHunk
+nmap <leader>gu <Plug>GitGutterUndoHunk
 nmap <leader>gn <Plug>GitGutterNextHunk
 nmap <leader>gp <Plug>GitGutterPrevHunk
 nnoremap <leader>u :UndotreeToggle<cr>

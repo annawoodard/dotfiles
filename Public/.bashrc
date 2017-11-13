@@ -118,10 +118,12 @@ alias killlobster='kill `myps | grep lobster | awk "{ print $2 }"`'
 alias lxplus='ssh -Y lxplus.cern.ch'
 alias prune="condor_rm -const 'JobStatus == 1'"
 alias checkafs="/usr/sbin/vos ex u.awoodard"
-alias v="vim"
+alias v="nvim"
 alias crabenv="source /cvmfs/cms.cern.ch/crab3/crab.sh"
 
 condorlog() {
   echo $1
   awk '/${$1}/{flag=1}/\.\.\./{flag=0}flag' /tmp/wq-pool-174873/condor.logfile
 }
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash

@@ -1,16 +1,14 @@
-export PATH=${PATH}:$HOME/bin
 export PATH=${PATH}:$HOME/.local/bin
+export PATH=${PATH}:$HOME/neovim/bin
 export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:$HOME/local/lib
 unset USERNAME
-
+export FZF_DEFAULT_COMMAND='rg --files --hidden --smartcase --glob "!.git/*"'
 if [[ $HOSTNAME == *".crc.nd.edu" ]]; then
-  export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/afs/crc.nd.edu/user/m/mwolf3/lib
-  export PATH=${PATH}:/afs/crc.nd.edu/user/m/mwolf3/bin
+  [ -r /opt/crc/Modules/current/init/sh ] && source /opt/crc/Modules/current/init/sh
   export PATH=/afs/crc.nd.edu/user/a/awoodard/scripts:${PATH}
   export PATH=/afs/crc.nd.edu/user/a/awoodard/local/bin:${PATH}
   export CMS_LOCAL_SITE=T3_US_NotreDame
   export PARROT_ALLOW_SWITCHING_CVMFS_REPOSITORIES=TRUE
-  cctools=lobster-140-8e7d5576-cvmfs-40cf5bba
   cctools=lobster-148-c1a7ecbd-cvmfs-0941e442
   export PYTHONPATH=$PYTHONPATH:/afs/crc.nd.edu/group/ccl/software/x86_64/redhat6/cctools/$cctools/lib/python2.6/site-packages
   export PATH=/afs/crc.nd.edu/group/ccl/software/x86_64/redhat6/cctools/$cctools/bin:$PATH
@@ -22,12 +20,9 @@ if [[ $HOSTNAME == *".crc.nd.edu" ]]; then
   if [[ $HOSTNAME != "earth.crc.nd.edu" ]]; then
     export _CONDOR_APPEND_REQUIREMENTS=
   fi
-  [ -r /opt/crc/Modules/current/init/sh ] && source /opt/crc/Modules/current/init/sh && module load gcc/4.6.2
-fi
-
-if [[ $HOSTNAME == *"lxplus"* ]]; then
-  export PATH=$PATH:~matze/bin
-  export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:~matze/lib
+  if [ $HOSTNAME == "condorfe.crc.nd.edu" ] || [ $HOSTNAME == "opteron.crc.nd.edu" ]; then
+    module load python/3.5.2
+  fi
 fi
 
 if [ "x$PARROT_ENABLED" != "x" ]; then
