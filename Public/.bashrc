@@ -99,7 +99,6 @@ alias del='rm -v -i'
 alias md='mkdir -v -p'
 alias rd='rmdir -v'
 alias ls='ls --color'
-# alias root='root -l'
 alias h='history | tail'
 alias di='ls -lrthBG'
 alias dirs='dirs -v'
@@ -121,9 +120,31 @@ alias checkafs="/usr/sbin/vos ex u.awoodard"
 alias v="nvim"
 alias crabenv="source /cvmfs/cms.cern.ch/crab3/crab.sh"
 
+if ! hash tac 2>/dev/null; then
+  alias tac='tail -r'
+fi
+
 condorlog() {
   echo $1
   awk '/${$1}/{flag=1}/\.\.\./{flag=0}flag' /tmp/wq-pool-174873/condor.logfile
 }
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
+
+__fzf_history__() (
+  local line
+  shopt -u nocaseglob nocasematch
+  line=$(
+    HISTTIMEFORMAT= history |
+    tac |
+    sort --key=2.1 -bus |
+    sort -n |
+    FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} $FZF_DEFAULT_OPTS --tac -n2..,.. --tiebreak=index --bind=ctrl-r:toggle-sort $FZF_CTRL_R_OPTS +m" $(__fzfcmd) |
+    command grep '^ *[0-9]') &&
+    if [[ $- =~ H ]]; then
+      sed 's/^ *\([0-9]*\)\** .*/!\1/' <<< "$line"
+    else
+      sed 's/^ *\([0-9]*\)\** *//' <<< "$line"
+    fi
+)
+
