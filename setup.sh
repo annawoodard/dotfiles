@@ -13,8 +13,7 @@ cp ripgrep-0.7.1-i686-unknown-linux-musl/rg ~/.local/bin
 ### neovim
 git clone git@github.com:neovim/neovim.git
 cd neovim
-git checkout v0.2.0
-make CMAKE_EXTRA_FLAGS="-DCMAKE_INSTALL_PREFIX=$HOME/neovim"
+make CMAKE_EXTRA_FLAGS="-DCMAKE_INSTALL_PREFIX=$HOME/.local" CMAKE_BUILD_TYPE=RelWithDebInfo
 make install
 cd -
 
@@ -22,9 +21,18 @@ cd -
 curl https://raw.githubusercontent.com/Shougo/dein.vim/master/bin/installer.sh > installer.sh
 sh ./installer.sh ~/.vim/bundles
 
+### pyenv
+git clone https://github.com/pyenv/pyenv.git ~/.pyenv
+pyenv install 2.7.8
+pyenv install 3.5.2
+pyenv shell 3.5.2
+
 rm -rf "$dir"
 
-pip install --user flake8
-pip3 install --user neovim
-pip3 install --user jedi
-pip3 install --user yapf
+for package in flake8 neovim jedi yapf python-language-server autopep8
+do
+  pip install --user $package
+done
+
+# FIXME font ligatures?
+

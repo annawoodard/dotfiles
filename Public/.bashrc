@@ -71,7 +71,6 @@ export EDITOR FETCH_PACKAGES LC_CTYPE PATH HOME TERM
 LC_CTYPE=en_US.UTF-8
 
 export PYTHONSTARTUP=~/.pystartup
-export LS_COLORS="no=00:fi=00:di=1;34:ln=00;36:pi=40;33:so=00;35:bd=40;33;01:cd=40;33;01:or=01;05;37;41:mi=01;05;37;41:ex=00;32:*.cmd=00;32:*.exe=00;32:*.com=00;32:*.btm=00;32:*.bat=00;32:*.sh=00;32:*.csh=00;32:*.tar=00;31:*.tgz=00;31:*.arj=00;31:*.taz=00;31:*.lzh=00;31:*.zip=00;31:*.z=00;31:*.Z=00;31:*.gz=00;31:*.bz2=00;31:*.bz=00;31:*.tz=00;31:*.rpm=00;31:*.cpio=00;31:*.jpg=00;35:*.gif=00;35:*.bmp=00;35:*.xbm=00;35:*.xpm=00;35:*.png=00;35:*.tif=00;35:"
 
 set -o vi
 
@@ -98,7 +97,6 @@ alias mv='mv -v -i'
 alias del='rm -v -i'
 alias md='mkdir -v -p'
 alias rd='rmdir -v'
-alias ls='ls --color'
 alias h='history | tail'
 alias di='ls -lrthBG'
 alias dirs='dirs -v'
@@ -117,7 +115,6 @@ alias killlobster='kill `myps | grep lobster | awk "{ print $2 }"`'
 alias lxplus='ssh -Y lxplus.cern.ch'
 alias prune="condor_rm -const 'JobStatus == 1'"
 alias checkafs="/usr/sbin/vos ex u.awoodard"
-alias v="nvim"
 alias crabenv="source /cvmfs/cms.cern.ch/crab3/crab.sh"
 
 if ! hash tac 2>/dev/null; then
@@ -147,4 +144,3 @@ __fzf_history__() (
       sed 's/^ *\([0-9]*\)\** *//' <<< "$line"
     fi
 )
-
