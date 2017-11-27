@@ -1,5 +1,5 @@
 " ========== setup
-
+set t_BE=
 if &compatible
   set nocompatible
 endif
@@ -22,6 +22,7 @@ else
     call dein#add('tpope/vim-commentary')
     call dein#add('tpope/vim-obsession')
     call dein#add('tpope/vim-surround')
+    call dein#add('tpope/vim-repeat')
     call dein#add('tpope/vim-fugitive', {'on_cmd': ['Git', 'Gstatus', 'Gwrite', 'Glog', 'Gcommit', 'Gblame', 'Ggrep', 'Gdiff'] })
     call dein#add('ntpeters/vim-better-whitespace')
     call dein#add('JulesWang/css.vim', {'on_ft': 'css'})
@@ -128,7 +129,6 @@ if has("autocmd")
   set omnifunc=syntaxcomplete#Complete
   set modeline
 
-  set sw=2
   autocmd FileType C setlocal ts=2 sw=2 expandtab
   autocmd FileType cpp setlocal commentstring=//%s
   autocmd FileType python setlocal ts=4 sw=4 tw=120 expandtab
@@ -180,6 +180,7 @@ endif
 
 " ========== vimtext
 
+let g:tex_flavor='latex'
 let g:vimtex_complete_enabled=1
 let g:vimtex_complete_close_braces=1
 let g:vimtex_indent_enabled=1
@@ -192,9 +193,13 @@ inoremap jk <ESC>
 nmap <leader>gs <Plug>GitGutterStageHunk
 nmap <leader>gu <Plug>GitGutterUndoHunk
 nmap <leader>gn <Plug>GitGutterNextHunk
+silent! call repeat#set("\<Plug>GitGutterNextHunk", v:count)
 nmap <leader>gp <Plug>GitGutterPrevHunk
-nmap <leader>n  <Plug>(ale_previous_wrap)
-nmap <leader>p  <Plug>(ale_next_wrap)
+silent! call repeat#set("\<Plug>GitGutterPrevHunk", v:count)
+nmap <leader>p  <Plug>(ale_previous_wrap)
+silent! call repeat#set("\<Plug>(ale_previous_wrap)", v:count)
+nmap <leader>n  <Plug>(ale_next_wrap)
+silent! call repeat#set("\<Plug>(ale_next_wrap)", v:count)
 nnoremap <leader>u :UndotreeToggle<cr>
 map <leader>l :bn<cr>
 map <leader>h :bp<cr>
