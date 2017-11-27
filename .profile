@@ -1,4 +1,4 @@
-export PATH=/afs/crc.nd.edu/user/a/awoodard/.local/bin:${PATH}
+export PATH=$HOME/.local/bin:${PATH}
 export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:$HOME/local/lib
 unset USERNAME
 export FZF_DEFAULT_COMMAND='rg --files --hidden --smartcase --glob "!.git/*"'
@@ -18,10 +18,8 @@ if [[ $HOSTNAME == *".crc.nd.edu" ]]; then
   echo " === === === Your Kerberos ticket and AFS token status: === === ==="
   klist -5 -f | grep -2 krbtgt | grep Flags | xargs echo 'Kerberos:'
   tokens | grep AFS | xargs -0 echo 'AFS: '
-  if [[ $HOSTNAME != "earth.crc.nd.edu" ]]; then
-    export _CONDOR_APPEND_REQUIREMENTS=
-  fi
   if [ $HOSTNAME == "condorfe.crc.nd.edu" ] || [ $HOSTNAME == "opteron.crc.nd.edu" ]; then
+    export _CONDOR_APPEND_REQUIREMENTS=
     module load python/3.5.2
     export PYTHONPATH=/afs/crc.nd.edu/x86_64_linux/p/python/3.5.2/build-new/lib/python3.5/:${PYTHONPATH}
     export PYTHONPATH=${PYTHONPATH}:$HOME/.local/lib/python3.5/site-packages
@@ -48,6 +46,7 @@ if [[ $HOSTNAME == *"MacBook"* ]]; then
   defaults write TeXShop BringPdfFrontOnAutomaticUpdate NO
   alias ls="ls -G"
   alias rm="echo Use 'rmtrash', or the full path i.e. '/bin/rm'"
+  alias v="nvim"
 else
   alias ls='ls --color'
   export LSCOLORS="no=00:fi=00:di=1;34:ln=00;36:pi=40;33:so=00;35:bd=40;33;01:cd=40;33;01:or=01;05;37;41:mi=01;05;37;41:ex=00;32:*.cmd=00;32:*.exe=00;32:*.com=00;32:*.btm=00;32:*.bat=00;32:*.sh=00;32:*.csh=00;32:*.tar=00;31:*.tgz=00;31:*.arj=00;31:*.taz=00;31:*.lzh=00;31:*.zip=00;31:*.z=00;31:*.Z=00;31:*.gz=00;31:*.bz2=00;31:*.bz=00;31:*.tz=00;31:*.rpm=00;31:*.cpio=00;31:*.jpg=00;35:*.gif=00;35:*.bmp=00;35:*.xbm=00;35:*.xpm=00;35:*.png=00;35:*.tif=00;35:"
@@ -59,3 +58,5 @@ export PATH="$PYENV_ROOT/bin:$PATH"
 if command -v pyenv 1>/dev/null 2>&1; then
   eval "$(pyenv init -)"
 fi
+
+# export PATH=~awoodard/software/redpen-distribution-1.10.0/bin:$PATH
