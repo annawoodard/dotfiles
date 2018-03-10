@@ -1,3 +1,4 @@
+" ========== setup
 if &compatible
 	set nocompatible
 endif
@@ -173,7 +174,7 @@ augroup END
 " endif
 
 if has('nvim')
-  let g:ale_fixers = {'python': ['autopep8', 'yapf', 'isort', 'trim_whitespace', 'remove_trailing_lines']}
+  let g:ale_fixers = {'python': ['autopep8', 'yapf', 'isort', 'trim_whitespace', 'pep257', 'remove_trailing_lines']}
   " let g:ale_linters = { 'python': ['autopep8', 'yapf', 'isort', 'trim_whitespace', 'remove_trailing_lines', 'pydocstyle'], 'tex': ['chktex', 'lacheck']}
   let g:ale_linters = {'python': ['pydocstyle'], 'tex': []}
   let g:ale_python_pydocstlye_options = '--ignore=D202,D100,D103,D104,D105'
