@@ -1,51 +1,47 @@
-" ========== setup
-set t_BE=
 if &compatible
-  set nocompatible
+	set nocompatible
 endif
 
-if v:version < 702 || (v:version == 702 && !has('patch51'))
-  execute pathogen#infect()
-  execute pathogen#helptags()
-else
-  set runtimepath+=~/.vim/bundles/repos/github.com/Shougo/dein.vim
-  let g:dein#types#git#default_protocol='ssh'
-
-  if dein#load_state('~/.vim/bundles')
-    call dein#begin('~/.vim/bundles')
-    call dein#add('~/.vim/bundles/repos/github.com/Shougo/dein.vim')
-    call dein#add('airblade/vim-gitgutter')
-    call dein#add('bling/vim-airline')
-    call dein#add('godlygeek/tabular')
-    call dein#add('ervandew/supertab')
-    call dein#add('majutsushi/tagbar')
-    call dein#add('tpope/vim-commentary')
-    call dein#add('tpope/vim-obsession')
-    call dein#add('tpope/vim-surround')
-    call dein#add('tpope/vim-repeat')
-    call dein#add('tpope/vim-fugitive', {'on_cmd': ['Git', 'Gstatus', 'Gwrite', 'Glog', 'Gcommit', 'Gblame', 'Ggrep', 'Gdiff'] })
-    call dein#add('ntpeters/vim-better-whitespace')
-    call dein#add('JulesWang/css.vim', {'on_ft': 'css'})
-    call dein#add('avakhov/vim-yaml', {'on_ft': 'yaml'})
-    call dein#add('mbbill/undotree')
-    call dein#add('lervag/vimtex', {'on_ft': 'tex'})
-    call dein#add('junegunn/fzf', {'build': './install --all', 'rtp': '~/.fzf'})
-    call dein#add('junegunn/fzf.vim')
-    call dein#add('mhartington/oceanic-next')
-    if has('nvim')
-      call dein#add('prabirshrestha/asyncomplete.vim')
-      call dein#add('prabirshrestha/asyncomplete-lsp.vim')
-      call dein#add('prabirshrestha/async.vim')
-      call dein#add('prabirshrestha/vim-lsp')
-      call dein#add('w0rp/ale')
-    endif
-    call dein#end()
-    call dein#save_state()
-  endif
-  if dein#check_install()
-    call dein#install()
-  endif
+if empty(glob('~/.vim/plugged/plug.vim'))
+	silent !curl -fLo ~/.vim/plugged/plug.vim --create-dirs
+				\ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+	autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
+set rtp+=/usr/local/opt/fzf
+call plug#begin('~/.vim/plugged')
+" Plug 'ap/vim-buftabline'
+Plug 'vim-airline/vim-airline'
+Plug 'airblade/vim-gitgutter'
+Plug 'godlygeek/tabular'
+Plug 'ervandew/supertab'
+" Plug 'majutsushi/tagbar'
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-obsession'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-rhubarb'
+Plug 'ntpeters/vim-better-whitespace'
+Plug 'JulesWang/css.vim'
+Plug 'avakhov/vim-yaml'
+Plug 'mbbill/undotree'
+Plug 'lervag/vimtex'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
+Plug 'mhartington/oceanic-next'
+Plug 'w0rp/ale'
+Plug 'heavenshell/vim-pydocstring'
+if has('python')
+  Plug 'SirVer/ultisnips'
+  Plug 'honza/vim-snippets'
+endif
+" if has('nvim')
+" 	Plug 'prabirshrestha/asyncomplete.vim'
+" 	Plug 'prabirshrestha/asyncomplete-lsp.vim'
+" 	Plug 'prabirshrestha/async.vim'
+" 	Plug 'prabirshrestha/vim-lsp'
+" endif
+call plug#end()
 
 " ========== general
 
@@ -131,15 +127,17 @@ if has("autocmd")
 
   autocmd FileType C setlocal ts=2 sw=2 expandtab
   autocmd FileType cpp setlocal commentstring=//%s
-  autocmd FileType python setlocal ts=4 sw=4 tw=120 expandtab
+  autocmd FileType python setlocal ts=4 sw=4 tw=120 softtabstop=4 expandtab
   autocmd FileType ruby setlocal ts=2 sw=2 expandtab
   autocmd FileType css setlocal ts=2 sw=2 expandtab
-  autocmd FileType tex,plaintex  setlocal ts=2 sw=2 expandtab tw=80 spell spelllang=en_us
+  autocmd FileType tex,plaintex  setlocal ts=2 sw=2 expandtab tw=8000 spell spelllang=en_us
+  autocmd FileType rst  setlocal tw=8000 spell spelllang=en_us
   autocmd FileType text setlocal textwidth=80 expandtab spell spelllang=en_us
   autocmd FileType sh setlocal ts=4 sw=2 expandtab
   autocmd BufNewFile,BufRead */CMSSW*{cc,h} setlocal ts=3 sw=3 expandtab
   autocmd BufNewFile,BufRead */CMSSW* setlocal makeprg=scram\ b
   autocmd VimEnter * Obsess .session.vim
+  autocmd FileType netrw setl bufhidden=delete
 
   syntax on
 
@@ -162,20 +160,23 @@ augroup END
 
 " ========== python
 
-if executable('pyls')
-  au User lsp_setup call lsp#register_server({
-	\ 'name': 'pyls',
-	\ 'cmd': {server_info->['pyls']},
-	\ 'whitelist': ['python'],
-	\ })
-  inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-  inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-  inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<cr>"
-  autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
-endif
+" if executable('pyls')
+"   au User lsp_setup call lsp#register_server({
+" 	\ 'name': 'pyls',
+" 	\ 'cmd': {server_info->['pyls']},
+" 	\ 'whitelist': ['python'],
+" 	\ })
+"   inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+"   inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+"   inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<cr>"
+"   autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
+" endif
 
 if has('nvim')
   let g:ale_fixers = {'python': ['autopep8', 'yapf', 'isort', 'trim_whitespace', 'remove_trailing_lines']}
+  " let g:ale_linters = { 'python': ['autopep8', 'yapf', 'isort', 'trim_whitespace', 'remove_trailing_lines', 'pydocstyle'], 'tex': ['chktex', 'lacheck']}
+  let g:ale_linters = {'python': ['pydocstyle'], 'tex': []}
+  let g:ale_python_pydocstlye_options = '--ignore=D202,D100,D103,D104,D105'
 endif
 
 " ========== vimtext
@@ -186,6 +187,9 @@ let g:vimtex_complete_close_braces=1
 let g:vimtex_indent_enabled=1
 let g:vimtex_indent_bib_enabled=1
 let g:vimtex_indent_on_ampersands=1
+
+" ========== misc python
+let g:pydocstring_templates_dir='/Users/awoodard/.vim/plugged/vim-pydocstring/template/numpy/'
 
 " ========== misc mapping
 
@@ -211,3 +215,6 @@ nmap <leader>, :nohlsearch<CR> " clear the search buffer
 cmap w!! w !sudo tee % >/dev/null " write when sudo is required after opening
 noremap <leader>W :%s/\s+$//<cr>:let @/=''<CR> " kill trailing whitespace
 nnoremap <leader>o :Files<cr>
+nnoremap <silent> k :<C-U>execute 'normal!' (v:count > 1 ? "m'" . v:count : 'g') . 'k'<CR>
+nnoremap <silent> j :<C-U>execute 'normal!' (v:count > 1 ? "m'" . v:count : 'g') . 'j'<CR>
+
