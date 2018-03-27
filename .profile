@@ -1,8 +1,9 @@
 export PATH=$HOME/.local/bin:${PATH}
 export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:$HOME/local/lib
-unset USERNAME
 export FZF_DEFAULT_COMMAND='rg --files --hidden --smartcase --glob "!.git/*"'
 alias v="vim"
+
+set -o vi
 
 if [[ $HOSTNAME == *".crc.nd.edu" ]]; then
   [ -r /opt/crc/Modules/current/init/sh ] && source /opt/crc/Modules/current/init/sh
@@ -33,7 +34,7 @@ else
   export PS1="[\h] \w >"
 fi
 
-if [ -d /cvmfs ]; then
+if [ -d /cvmfs/cms.cern.ch ]; then
   export VO_CMS_SW_DIR=/cvmfs/cms.cern.ch
   source $VO_CMS_SW_DIR/cmsset_default.sh
 fi
@@ -52,11 +53,13 @@ else
   export LSCOLORS="no=00:fi=00:di=1;34:ln=00;36:pi=40;33:so=00;35:bd=40;33;01:cd=40;33;01:or=01;05;37;41:mi=01;05;37;41:ex=00;32:*.cmd=00;32:*.exe=00;32:*.com=00;32:*.btm=00;32:*.bat=00;32:*.sh=00;32:*.csh=00;32:*.tar=00;31:*.tgz=00;31:*.arj=00;31:*.taz=00;31:*.lzh=00;31:*.zip=00;31:*.z=00;31:*.Z=00;31:*.gz=00;31:*.bz2=00;31:*.bz=00;31:*.tz=00;31:*.rpm=00;31:*.cpio=00;31:*.jpg=00;35:*.gif=00;35:*.bmp=00;35:*.xbm=00;35:*.xpm=00;35:*.png=00;35:*.tif=00;35:"
 fi
 
-
-export PYENV_ROOT="$HOME/.pyenv"
-export PATH="$PYENV_ROOT/bin:$PATH"
-if command -v pyenv 1>/dev/null 2>&1; then
-  eval "$(pyenv init -)"
+if [[ $HOSTNAME == *"midway"* ]]; then
+  export PARSL_TESTING=True
+  module load Anaconda3/5.0.0.1
+  source activate parsl_py36
+  export LDFLAGS="-Wl,-rpath -Wl,/software/openmpi-1.6-el6-x86_64/lib"
+  MPI_VERSION=2
+  MPI_LIB_NAME=mpi
+  export PATH=~wozniak/Public/sfw/login/gcc/swift-t-py-3.6.1/stc/bin:~wozniak/Public/sfw/login/gcc/swift-t-py-3.6.1/turbine/bin:$PATH
+  export PPN=16
 fi
-
-# export PATH=~awoodard/software/redpen-distribution-1.10.0/bin:$PATH
