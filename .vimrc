@@ -1,4 +1,3 @@
-" ========== setup
 if &compatible
 	set nocompatible
 endif
@@ -9,6 +8,7 @@ if empty(glob('~/.vim/plugged/plug.vim'))
 	autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 set rtp+=/usr/local/opt/fzf
+set rtp+=/Users/awoodard/software/anaconda3/envs/parsl_py36/bin/
 call plug#begin('~/.vim/plugged')
 " Plug 'ap/vim-buftabline'
 Plug 'vim-airline/vim-airline'
@@ -32,6 +32,7 @@ Plug 'junegunn/fzf.vim'
 Plug 'mhartington/oceanic-next'
 Plug 'w0rp/ale'
 Plug 'heavenshell/vim-pydocstring'
+Plug 'google/yapf', { 'rtp': 'plugins/vim', 'for': 'python' }
 if has('python')
   Plug 'SirVer/ultisnips'
   Plug 'honza/vim-snippets'
@@ -128,7 +129,7 @@ if has("autocmd")
 
   autocmd FileType C setlocal ts=2 sw=2 expandtab
   autocmd FileType cpp setlocal commentstring=//%s
-  autocmd FileType python setlocal ts=4 sw=4 tw=120 softtabstop=4 expandtab
+  autocmd FileType python setlocal ts=4 sw=4 tw=120 softtabstop=4 expandtab formatprg=yapf
   autocmd FileType ruby setlocal ts=2 sw=2 expandtab
   autocmd FileType css setlocal ts=2 sw=2 expandtab
   autocmd FileType tex,plaintex  setlocal ts=2 sw=2 expandtab tw=8000 spell spelllang=en_us
@@ -175,7 +176,6 @@ augroup END
 
 if has('nvim')
   let g:ale_fixers = {'python': ['autopep8', 'yapf', 'isort', 'trim_whitespace', 'pep257', 'remove_trailing_lines']}
-  " let g:ale_linters = { 'python': ['autopep8', 'yapf', 'isort', 'trim_whitespace', 'remove_trailing_lines', 'pydocstyle'], 'tex': ['chktex', 'lacheck']}
   let g:ale_linters = {'python': ['pydocstyle'], 'tex': []}
   let g:ale_python_pydocstlye_options = '--ignore=D202,D100,D103,D104,D105'
 endif
