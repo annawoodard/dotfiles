@@ -33,6 +33,7 @@ Plug 'mhartington/oceanic-next'
 Plug 'w0rp/ale'
 Plug 'heavenshell/vim-pydocstring'
 Plug 'google/yapf', { 'rtp': 'plugins/vim', 'for': 'python' }
+Plug 'fisadev/vim-isort'
 if has('python')
   Plug 'SirVer/ultisnips'
   Plug 'honza/vim-snippets'
@@ -176,7 +177,7 @@ augroup END
 
 if has('nvim')
   let g:ale_fixers = {'python': ['autopep8', 'yapf', 'isort', 'trim_whitespace', 'pep257', 'remove_trailing_lines']}
-  let g:ale_linters = {'python': ['pydocstyle'], 'tex': []}
+  let g:ale_linters = {'python': ['pydocstyle', 'flake8', 'mypy', 'pylint', 'pep257'], 'tex': []}
   let g:ale_python_pydocstlye_options = '--ignore=D202,D100,D103,D104,D105'
 endif
 
