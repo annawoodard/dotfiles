@@ -21,12 +21,6 @@ cd -
 curl https://raw.githubusercontent.com/Shougo/dein.vim/master/bin/installer.sh > installer.sh
 sh ./installer.sh ~/.vim/bundles
 
-### pyenv
-git clone https://github.com/pyenv/pyenv.git ~/.pyenv
-pyenv install 2.7.8
-pyenv install 3.5.2
-pyenv shell 3.5.2
-
 rm -rf "$dir"
 
 for package in flake8 neovim jedi yapf python-language-server autopep8
